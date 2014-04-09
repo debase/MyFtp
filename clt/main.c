@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Mon Apr  7 23:39:28 2014 Etienne
-** Last update Wed Apr  9 15:41:05 2014 Etienne
+** Last update Wed Apr  9 23:26:19 2014 Etienne
 */
 
 #include <stdlib.h>
@@ -15,12 +15,12 @@
 
 static t_client_asso_func	g_assofunc[] =
   {
-    {"get", get_client},
-    {"put", put_client},
+    /* {"get", get_client}, */
+    /* {"put", put_client}, */
     {"ls", other_func},
-    {"cd", other_func},
-    {"pwd", other_func},
-    {"quit", other_func},
+    /* {"cd", other_func}, */
+    /* {"pwd", other_func}, */
+    /* {"quit", other_func}, */
     {NULL, NULL}
   };
 
@@ -73,7 +73,6 @@ void		put_in_tab(t_client *client)
   client->arg[0] = subtoken;
   subtoken = strtok_r(NULL, " ", &saveptr);
   client->arg[1] = subtoken;
-  printf("arg0 = %s\n", client->arg[0]);
 }
 
 int		send_cmd_serv(int sockfd, t_cmd *cmd)
@@ -103,13 +102,14 @@ int		other_func(t_client *client, t_cmd *cmd)
   if (send_cmd_serv(client->sockfd, cmd) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   ret = read(client->sockfd, &data, sizeof(data));
-  while (ret > 0 && data.size > 0)
+  while (ret > 0 && ret == sizeof(data))
     {
+      printf("%s\n", data.data);
       if (data.flags == MSG_END)
-	printf("%s\n", data.data);
+	break;
       ret = read(client->sockfd, &data, sizeof(data));
     }
-  if (ret < 0)
+  if (ret < 0 || ret != sizeof(data))
     {
       perror("read");
       return (EXIT_FAILURE);
