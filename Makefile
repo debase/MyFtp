@@ -5,7 +5,7 @@
 ## Login   <debas_e@epitech.net>
 ## 
 ## Started on  Mon Apr  7 21:12:01 2014 Etienne
-## Last update Fri Apr 11 20:37:08 2014 Etienne
+## Last update Fri Apr 11 22:46:44 2014 Etienne
 ##
 
 SRVNAME	= serveur
@@ -36,7 +36,7 @@ CC	=	gcc
 
 RM	=	rm -rf
 
-CFLAGS	=	-W -Wall -g
+CFLAGS	=	-W -Wall
 
 all:		$(SRVNAME) $(NAMECLI)
 
