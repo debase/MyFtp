@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Tue Apr  8 14:12:36 2014 Etienne
-** Last update Wed Apr  9 15:40:59 2014 Etienne
+** Last update Fri Apr 11 22:44:33 2014 Etienne
 */
 
 #ifndef _CLIENT_H_
@@ -40,6 +40,8 @@ typedef struct	s_client_asso_func
 int		get_client(t_client *client, t_cmd *cmd);
 int		put_client(t_client *client, t_cmd *cmd);
 int		other_func(t_client *client, t_cmd *cmd);
+int		help_func(t_client *client, t_cmd *cmd);
+int		send_cmd_serv(int sockfd, t_cmd *cmd);
 int		create_socket_client(const char *host, const char *port);
 
-#endif /* _CLIENT_H_ */
+#endif /* !_CLIENT_H_ */

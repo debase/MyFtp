@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Wed Apr  9 13:36:18 2014 Etienne
-** Last update Wed Apr  9 21:30:27 2014 Etienne
+** Last update Fri Apr 11 00:53:19 2014 Etienne
 */
 
 #ifndef _COM_H_
@@ -16,8 +16,9 @@
 # define MSG_END	1
 # define DATA		2
 
-# define COLOR_BLUE	"\033[1;34;40m"
-# define COLOR_RED	"\e[31m"
+# define COLOR_BLUE	"\033[34m"
+# define COLOR_RED	"\033[31m"
+# define COLOR_GREEN	"\033[32m"
 # define COLOR_RESET	"\033[0m"
 
 typedef struct	s_cmd

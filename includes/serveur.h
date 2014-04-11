@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Tue Apr  8 13:33:10 2014 Etienne
-** Last update Wed Apr  9 23:24:46 2014 Etienne
+** Last update Fri Apr 11 20:30:33 2014 Etienne
 */
 
 #ifndef _SERVEUR_H_
@@ -31,7 +31,7 @@ typedef struct		s_serveur
   int			sockfd;
   struct sockaddr_in	*cli_addr;
   char			base_pwd[PATH_MAX];
-  char			curren_pwd[PATH_MAX];
+  char			current_pwd[PATH_MAX];
 }			t_serveur;
 
 typedef struct	s_serveur_asso_func
@@ -41,7 +41,10 @@ typedef struct	s_serveur_asso_func
 }		t_serveur_asso_func;
 
 char			*ls_serveur(t_serveur *, t_cmd *cmd);
+char			*cd_serveur(t_serveur *, t_cmd *cmd);
 char			*pwd_serveur(t_serveur *, t_cmd *cmd);
+char			*get_serveur(t_serveur *, t_cmd *cmd);
+char			*put_serveur(t_serveur *, t_cmd *cmd);
 int			create_socket_server(const char *port);
 
 #endif /* !_SERVEUR_H_ */

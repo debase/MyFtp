@@ -5,22 +5,25 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Mon Apr  7 23:39:28 2014 Etienne
-** Last update Wed Apr  9 23:26:19 2014 Etienne
+** Last update Fri Apr 11 22:44:39 2014 Etienne
 */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include "client.h"
 
 static t_client_asso_func	g_assofunc[] =
   {
-    /* {"get", get_client}, */
-    /* {"put", put_client}, */
+    {"get", get_client},
+    {"put", put_client},
     {"ls", other_func},
-    /* {"cd", other_func}, */
-    /* {"pwd", other_func}, */
-    /* {"quit", other_func}, */
+    {"cd", other_func},
+    {"pwd", other_func},
+    {"help", help_func},
     {NULL, NULL}
   };
 
@@ -93,6 +96,23 @@ int		send_cmd_serv(int sockfd, t_cmd *cmd)
   return (EXIT_SUCCESS);
 }
 
+int		help_func(__attribute__((unused)) t_client *client,
+			  __attribute__((unused)) t_cmd *cmd)
+{
+  printf("%sHelp :%s\n", COLOR_RED, COLOR_RESET);
+  printf("%sls%s              : list all files of the "
+	 "current server working directory\n", COLOR_BLUE, COLOR_RESET);
+  printf("%spwd%s             : display the current "
+	 "serveur working directory\n", COLOR_BLUE, COLOR_RESET);
+  printf("%scd  <directory>%s : change server "
+	 "working directory\n", COLOR_BLUE, COLOR_RESET);
+  printf("%sget <file>%s      : transfert server file "
+	 "to the current local working directory\n", COLOR_BLUE, COLOR_RESET);
+  printf("%sput <file>%s      : transfert local file "
+	 "to the current server working directory\n", COLOR_BLUE, COLOR_RESET);
+  return (EXIT_SUCCESS);
+}
+
 int		other_func(t_client *client, t_cmd *cmd)
 {
   int		ret;
@@ -111,19 +131,9 @@ int		other_func(t_client *client, t_cmd *cmd)
     }
   if (ret < 0 || ret != sizeof(data))
     {
-      perror("read");
+      perror("read error");
       return (EXIT_FAILURE);
     }
-  return (EXIT_SUCCESS);
-}
-
-int		get_client(t_client *client, t_cmd *cmd)
-{
-  return (EXIT_SUCCESS);
-}
-
-int		put_client(t_client *client, t_cmd *cmd)
-{
   return (EXIT_SUCCESS);
 }
 
@@ -133,6 +143,7 @@ int		exec_cmd(t_client *client)
   int		i;
 
   i = 0;
+  memset(&cmd, 0, sizeof(cmd));
   put_in_tab(client);
   if (client->arg[0] == NULL)
     return (EXIT_SUCCESS);
@@ -147,6 +158,7 @@ int		exec_cmd(t_client *client)
 	}
       i++;
     }
+  printf("%s : command not found.\n", client->arg[0]);
   return (EXIT_SUCCESS);
 }
 
@@ -156,11 +168,12 @@ int		main(int ac, char *argv[])
 
   if (ac != 3)
     return (1);
+  memset(&cstruct, 0, sizeof(cstruct));
   if ((cstruct.sockfd = create_socket_client(argv[1], argv[2])) < 0)
     return (EXIT_FAILURE);
   snprintf(cstruct.prompt, PROMPT_SIZE, "%s::%s > ", argv[1], argv[2]);
   while (write(1, cstruct.prompt, sizeof(cstruct.prompt))
-	 && (!my_getline(&cstruct)))
+	 && (!my_getline(&cstruct)) && strcmp(cstruct.command_line, "quit"))
     {
       epur_str(cstruct.command_line);
       if (exec_cmd(&cstruct))

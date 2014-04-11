@@ -5,7 +5,7 @@
 ## Login   <debas_e@epitech.net>
 ## 
 ## Started on  Mon Apr  7 21:12:01 2014 Etienne
-## Last update Wed Apr  9 13:34:56 2014 Etienne
+## Last update Fri Apr 11 20:37:08 2014 Etienne
 ##
 
 SRVNAME	= serveur
@@ -17,10 +17,14 @@ SRV	= srv
 CLI	= clt
 
 SRVSRC	=	$(SRV)/main.c		\
-		$(SRV)/socket_serveur.c
+		$(SRV)/socket_serveur.c \
+		$(SRV)/get_serveur.c	\
+		$(SRV)/put_serveur.c
 
 SRCCLT	=	$(CLI)/main.c		\
-		$(CLI)/socket_client.c
+		$(CLI)/socket_client.c	\
+		$(CLI)/get_client.c	\
+		$(CLI)/put_client.c
 
 INC	=	includes/
 
@@ -32,7 +36,7 @@ CC	=	gcc
 
 RM	=	rm -rf
 
-CFLAGS	=	-W -Wall
+CFLAGS	=	-W -Wall -g
 
 all:		$(SRVNAME) $(NAMECLI)
 
