@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Sat Apr 12 00:02:57 2014 Etienne
-** Last update Sat Apr 12 00:04:33 2014 Etienne
+** Last update Sat Apr 12 00:30:07 2014 Etienne
 */
 
 #include <string.h>
@@ -36,15 +36,21 @@ int			run_cmd_client(t_serveur *serveur, t_cmd *cmd)
 	{
 	  ret = g_assofunc[i].func(serveur, cmd);
 	  if (ret == (void *)-1)
-	    return (EXIT_FAILURE);
+	    {
+	      printf ("toto\n");
+	      return (EXIT_FAILURE);
+	    }
 	  if (ret != NULL)
 	    {
 	      success = !strncmp("Success", ret, strlen("Success"));
 	      snprintf(data.data, DATA_SIZE, "%s%s%s",
 		       success ? COLOR_GREEN : COLOR_RED, ret, COLOR_RESET);
 	      data.flags = MSG_END;
-	      if (send_result_client(serveur->sockfd, &data) || !success)
-		return (EXIT_FAILURE);
+	      if (send_result_client(serveur->sockfd, &data))
+		{
+		  printf ("tata\n");
+		  return (EXIT_FAILURE);
+		}
 	    }
 	}
       i++;
