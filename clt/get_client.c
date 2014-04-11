@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Thu Apr 10 23:41:35 2014 Etienne
-** Last update Fri Apr 11 22:45:09 2014 Etienne
+** Last update Fri Apr 11 23:41:11 2014 Etienne
 */
 
 #include <unistd.h>
@@ -48,7 +48,8 @@ static int	get_create_file(t_client *client, int *size)
   ret = read(client->sockfd, &data, sizeof(data));
   if (ret < 0 || ret != sizeof(data))
     {
-      fprintf(stderr, "read error : %s%s%s\n", COLOR_RED, strerror(errno), COLOR_RESET);
+      fprintf(stderr, "read error : %s%s%s\n",
+	      COLOR_RED, strerror(errno), COLOR_RESET);
       return (-2);
     }
   if (!strcmp("Invalid file", data.data)
@@ -61,31 +62,45 @@ static int	get_create_file(t_client *client, int *size)
   return (create_file(data.data));
 }
 
-int		get_client(t_client *client, t_cmd *cmd)
+int		get_loop(int sockfd, int fd, int size)
 {
   int		ret;
-  int		fd;
-  int		size;
   int		rcv;
   char		buff[DATA_SIZE];
 
   rcv = 0;
+  while (rcv != size)
+    {
+      ret = read(sockfd, buff, DATA_SIZE);
+      rcv += ret;
+      if (ret <= 0 && rcv != size)
+	{
+	  fprintf(stderr, "%sread error : failded to receive file%s\n",
+		  COLOR_RED, COLOR_RESET);
+	  return (EXIT_FAILURE);
+	}
+      if (write_in_file(buff, fd, ret) == -1)
+	{
+	  return (EXIT_FAILURE);
+	}
+    }
+  return (EXIT_SUCCESS);
+}
+
+int		get_client(t_client *client, t_cmd *cmd)
+{
+  int		fd;
+  int		size;
+  int		ret;
+
   if (send_cmd_serv(client->sockfd, cmd) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if ((fd = get_create_file(client, &size)) > 0)
-    while (rcv != size)
-      {
-	ret = read(client->sockfd, buff, DATA_SIZE);
-	rcv += ret;
-	if (ret <= 0 && rcv != size)
-	  {
-	    fprintf(stderr, "%sread error : failded to receive file%s\n",
-		    COLOR_RED, COLOR_RESET);
-	    return (EXIT_FAILURE);
-	  }
-	if (write_in_file(buff, fd, ret) == -1)
-	  break;
-      }
+    {
+      ret = get_loop(client->sockfd, fd, size);
+      if (ret == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+    }
   if (fd > 0)
     {
       printf ("%sSuccess : get file%s\n", COLOR_GREEN, COLOR_RESET);

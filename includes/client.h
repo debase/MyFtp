@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Tue Apr  8 14:12:36 2014 Etienne
-** Last update Fri Apr 11 22:44:33 2014 Etienne
+** Last update Fri Apr 11 23:28:42 2014 Etienne
 */
 
 #ifndef _CLIENT_H_
@@ -37,6 +37,10 @@ typedef struct	s_client_asso_func
   int		(*func)(t_client *, t_cmd *);
 }		t_client_asso_func;
 
+void		epur_str(char *str);
+int		exec_cmd(t_client *client);
+int		my_getline(t_client *client);
+void		put_in_tab(t_client *client);
 int		get_client(t_client *client, t_cmd *cmd);
 int		put_client(t_client *client, t_cmd *cmd);
 int		other_func(t_client *client, t_cmd *cmd);

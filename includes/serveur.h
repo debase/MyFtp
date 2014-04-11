@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Tue Apr  8 13:33:10 2014 Etienne
-** Last update Fri Apr 11 20:30:33 2014 Etienne
+** Last update Sat Apr 12 00:03:58 2014 Etienne
 */
 
 #ifndef _SERVEUR_H_
@@ -40,6 +40,10 @@ typedef struct	s_serveur_asso_func
   char		*(*func)(t_serveur *, t_cmd *);
 }		t_serveur_asso_func;
 
+int			run_cmd_client(t_serveur *serveur, t_cmd *cmd);
+int			run_cmd_client(t_serveur *, t_cmd *);
+void			handle_client(int sockfd, struct sockaddr_in *cli_addr);
+int			send_result_client(int sockfd, t_data *data);
 char			*ls_serveur(t_serveur *, t_cmd *cmd);
 char			*cd_serveur(t_serveur *, t_cmd *cmd);
 char			*pwd_serveur(t_serveur *, t_cmd *cmd);

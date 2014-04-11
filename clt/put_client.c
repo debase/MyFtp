@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Fri Apr 11 19:14:17 2014 Etienne
-** Last update Fri Apr 11 20:45:23 2014 Etienne
+** Last update Sat Apr 12 00:11:46 2014 Etienne
 */
 
 #include <stdio.h>
@@ -19,11 +19,28 @@
 #include <stdlib.h>
 #include "client.h"
 
+static int	is_reg_file(int fd, struct stat *st)
+{
+  if (fstat(fd, st) < 0)
+    {
+      fprintf(stderr, "%sfstat error : %s%s\n",
+	      COLOR_RED, strerror(errno), COLOR_RESET);
+      return (-1);
+    }
+  if (!S_ISREG(st->st_mode))
+    {
+      fprintf(stderr, "%sput : invalid file%s\n",
+	      COLOR_RED, COLOR_RESET);
+      return (-1);
+    }
+  return (0);
+}
+
 static int	is_valid_file(char *path_file, t_data *data)
 {
   int		fd;
-  struct stat	st;
   char		*name;
+  struct stat	st;
 
   if (path_file[0] == 0)
     {
@@ -36,22 +53,12 @@ static int	is_valid_file(char *path_file, t_data *data)
 	      COLOR_RED, path_file, COLOR_RESET);
       return (-1);
     }
-  if (fstat(fd, &st) < 0)
-    {
-      fprintf(stderr, "%sfstat error : %s%s\n",
-	      COLOR_RED, strerror(errno), COLOR_RESET);
-      return (-1);
-    }
-  if (!S_ISREG(st.st_mode))
-    {
-      fprintf(stderr, "%sput : invalid file%s\n",
-	      COLOR_RED, COLOR_RESET);
-      return (-1);
-    }
+  if (is_reg_file(fd, &st) == -1)
+    return (-1);
   data->size = st.st_size;
   name = rindex(path_file, '/');
   name = (name == NULL ? path_file : name + 1);
-  snprintf(data->data, DATA_SIZE,"%s", name);
+  snprintf(data->data, DATA_SIZE, "%s", name);
   return (fd);
 }
 

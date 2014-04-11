@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Thu Apr 10 23:42:47 2014 Etienne
-** Last update Fri Apr 11 22:42:37 2014 Etienne
+** Last update Fri Apr 11 23:51:07 2014 Etienne
 */
 
 #include <stdio.h>
@@ -51,7 +51,8 @@ static int		check_valid_file(t_serveur *serv, t_cmd *cmd, t_data *data)
       snprintf(data->data, DATA_SIZE, "Invalid file");
       return (-1);
     }
-  if (fstat(fd, &st) < 0 || (check_path_file(cmd->arg2, serv) == -1) || !S_ISREG(st.st_mode))
+  if (fstat(fd, &st) < 0 || (check_path_file(cmd->arg2, serv) == -1)
+      || !S_ISREG(st.st_mode))
     {
       snprintf(data->data, DATA_SIZE, "Invalid file");
       return (-1);
