@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Mon Apr  7 23:39:28 2014 Etienne
-** Last update Tue Apr  8 22:59:33 2014 Etienne
+** Last update Sat Apr 12 16:31:33 2014 Etienne
 */
 
 #include <unistd.h>
@@ -13,10 +13,26 @@
 #include <string.h>
 #include "serveur.h"
 
+int			socket_bind(int fd_socket, struct addrinfo *result)
+{
+  int			optval;
+
+  if (fd_socket >= 0)
+    {
+      optval = 1;
+      if (setsockopt(fd_socket, SOL_SOCKET, SO_REUSEADDR, &optval,
+		     sizeof(optval)) < 0)
+	perror("setsockopt");
+      if (bind(fd_socket, result->ai_addr, result->ai_addrlen) != -1)
+	return (1);
+      close(fd_socket);
+    }
+  return (0);
+}
+
 int			find_socketfd(struct addrinfo *result)
 {
   int			fd_socket;
-  int			optval;
   struct addrinfo	*save;
 
   save = result;
@@ -24,16 +40,8 @@ int			find_socketfd(struct addrinfo *result)
     {
       fd_socket = socket(result->ai_family, result->ai_socktype,
 			 result->ai_protocol);
-      if (fd_socket >= 0)
-	{
-	  optval = 1;
-	  if (setsockopt(fd_socket, SOL_SOCKET, SO_REUSEADDR, &optval,
-			 sizeof(optval)) < 0)
-	    perror("setsockopt");
-	  if (bind(fd_socket, result->ai_addr, result->ai_addrlen) != -1)
-	    break;
-	  close(fd_socket);
-	}
+      if (socket_bind(fd_socket, result) == 1)
+	break ;
       result = result->ai_next;
     }
   if (result == NULL)

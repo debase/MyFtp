@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Sat Apr 12 00:02:57 2014 Etienne
-** Last update Sat Apr 12 00:30:07 2014 Etienne
+** Last update Sat Apr 12 16:36:49 2014 Etienne
 */
 
 #include <string.h>
@@ -29,31 +29,22 @@ int			run_cmd_client(t_serveur *serveur, t_cmd *cmd)
   t_data		data;
   int			success;
 
-  i = 0;
-  while (g_assofunc[i].cmd != NULL)
-    {
-      if (!strcmp(g_assofunc[i].cmd, cmd->arg1))
-	{
-	  ret = g_assofunc[i].func(serveur, cmd);
-	  if (ret == (void *)-1)
-	    {
-	      printf ("toto\n");
+  i = -1;
+  while (g_assofunc[++i].cmd != NULL)
+    if (!strcmp(g_assofunc[i].cmd, cmd->arg1))
+      {
+	ret = g_assofunc[i].func(serveur, cmd);
+	if (ret == (void *)-1)
+	  return (EXIT_FAILURE);
+	if (ret != NULL)
+	  {
+	    success = !strncmp("Success", ret, strlen("Success"));
+	    snprintf(data.data, DATA_SIZE, "%s%s%s",
+		     success ? COLOR_GREEN : COLOR_RED, ret, COLOR_RESET);
+	    data.flags = MSG_END;
+	    if (send_result_client(serveur->sockfd, &data))
 	      return (EXIT_FAILURE);
-	    }
-	  if (ret != NULL)
-	    {
-	      success = !strncmp("Success", ret, strlen("Success"));
-	      snprintf(data.data, DATA_SIZE, "%s%s%s",
-		       success ? COLOR_GREEN : COLOR_RED, ret, COLOR_RESET);
-	      data.flags = MSG_END;
-	      if (send_result_client(serveur->sockfd, &data))
-		{
-		  printf ("tata\n");
-		  return (EXIT_FAILURE);
-		}
-	    }
-	}
-      i++;
-    }
+	  }
+      }
   return (EXIT_SUCCESS);
 }

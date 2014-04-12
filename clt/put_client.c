@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Fri Apr 11 19:14:17 2014 Etienne
-** Last update Sat Apr 12 00:11:46 2014 Etienne
+** Last update Sat Apr 12 17:14:27 2014 Etienne
 */
 
 #include <stdio.h>
@@ -62,6 +62,24 @@ static int	is_valid_file(char *path_file, t_data *data)
   return (fd);
 }
 
+int		loop_put(size_t size, int sockfd, int fd)
+{
+  size_t	total_sent;
+  ssize_t	sent;
+
+  total_sent = 0;
+  while (total_sent < size)
+    {
+      if ((sent = sendfile(sockfd, fd, NULL, size)) < 0)
+	{
+	  fprintf(stderr, "Error : sendfile error\n");
+	  return (EXIT_FAILURE);
+	}
+      total_sent += sent;
+    }
+  return (EXIT_SUCCESS);
+}
+
 int		put_client(t_client *client, t_cmd *cmd)
 {
   int		fd;
@@ -71,16 +89,17 @@ int		put_client(t_client *client, t_cmd *cmd)
   if ((fd = is_valid_file(cmd->arg2, &data)) > 0)
     {
       if (send_cmd_serv(client->sockfd, cmd) == EXIT_FAILURE ||
-	  (write(client->sockfd, &data, sizeof(data)) != sizeof(data)) ||
-	  (sendfile(client->sockfd, fd, NULL, data.size) < 0))
+	  (write(client->sockfd, &data, sizeof(data)) != sizeof(data)))
 	{
 	  printf("%sError occured during sending file%s", COLOR_RED, COLOR_RESET);
 	  return (EXIT_FAILURE);
 	}
+      if (loop_put(data.size, client->sockfd, fd) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
     }
   if (fd > 0)
     {
-      printf("%sSuccess sending file\n%s", COLOR_GREEN, COLOR_RESET);
+      printf("%sSuccess sending file%s\n", COLOR_GREEN, COLOR_RESET);
       close(fd);
     }
   return (EXIT_SUCCESS);

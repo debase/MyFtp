@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Thu Apr 10 23:42:47 2014 Etienne
-** Last update Sat Apr 12 15:23:49 2014 Etienne
+** Last update Sat Apr 12 17:16:11 2014 Etienne
 */
 
 #include <stdio.h>
@@ -63,13 +63,23 @@ char			*get_serveur(t_serveur *serv, t_cmd *cmd)
 {
   int			fd;
   t_data		data;
+  size_t		total_sent;
+  ssize_t		sent;
 
   fd = check_valid_file(serv, cmd, &data);
   write(serv->sockfd, &data, sizeof(data));
+  total_sent = 0;
   if (fd > 0)
     {
-      if (sendfile(serv->sockfd, fd, NULL, data.size) < 0)
-	return ((void *)-1);
+      while (total_sent < data.size)
+	{
+	  if ((sent = sendfile(serv->sockfd, fd, NULL, data.size)) < 0)
+	    {
+	      fprintf(stderr, "Error : sendfile error\n");
+	      return ((void *)-1);
+	    }
+	  total_sent += sent;
+	}
       return (NULL);
       close(fd);
     }

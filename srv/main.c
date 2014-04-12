@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Mon Apr  7 13:30:06 2014 Etienne
-** Last update Sat Apr 12 00:10:57 2014 Etienne
+** Last update Sat Apr 12 17:16:29 2014 Etienne
 */
 
 #include <unistd.h>
@@ -88,7 +88,8 @@ int			main(int ac, char *argv[1])
   while (1)
     {
       clilen = sizeof(cli_addr);
-      newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, (socklen_t *)&clilen);
+      newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr,
+			 (socklen_t *)&clilen);
       if (manage_socket(newsockfd, sockfd, &cli_addr))
 	return (EXIT_FAILURE);
       close(newsockfd);
