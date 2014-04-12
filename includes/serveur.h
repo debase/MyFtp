@@ -5,22 +5,22 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Tue Apr  8 13:33:10 2014 Etienne
-** Last update Sat Apr 12 00:03:58 2014 Etienne
+** Last update Sat Apr 12 17:25:50 2014 Etienne
 */
 
 #ifndef _SERVEUR_H_
-#define _SERVEUR_H_
+# define _SERVEUR_H_
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <netdb.h>
-#include "com.h"
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <netdb.h>
+# include "com.h"
 
 # ifndef PATH_MAX
 #  define PATH_MAX	4096
@@ -34,11 +34,11 @@ typedef struct		s_serveur
   char			current_pwd[PATH_MAX];
 }			t_serveur;
 
-typedef struct	s_serveur_asso_func
+typedef struct		s_serveur_asso_func
 {
-  char		*cmd;
-  char		*(*func)(t_serveur *, t_cmd *);
-}		t_serveur_asso_func;
+  char			*cmd;
+  char			*(*func)(t_serveur *, t_cmd *);
+}			t_serveur_asso_func;
 
 int			run_cmd_client(t_serveur *serveur, t_cmd *cmd);
 int			run_cmd_client(t_serveur *, t_cmd *);

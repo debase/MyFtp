@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Mon Apr  7 23:39:28 2014 Etienne
-** Last update Fri Apr 11 23:32:38 2014 Etienne
+** Last update Sat Apr 12 17:34:22 2014 Etienne
 */
 
 #include <stdlib.h>
@@ -21,7 +21,10 @@ int		main(int ac, char *argv[])
   t_client	cstruct;
 
   if (ac != 3)
-    return (1);
+    {
+      printf("%sUsage%s : %s <host> <port>\n", COLOR_RED, COLOR_RESET, argv[0]);
+      return (1);
+    }
   memset(&cstruct, 0, sizeof(cstruct));
   if ((cstruct.sockfd = create_socket_client(argv[1], argv[2])) < 0)
     return (EXIT_FAILURE);
