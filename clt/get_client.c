@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Thu Apr 10 23:41:35 2014 Etienne
-** Last update Fri Apr 11 23:41:11 2014 Etienne
+** Last update Sat Apr 12 15:24:25 2014 Etienne
 */
 
 #include <unistd.h>
@@ -18,12 +18,12 @@
 #include <string.h>
 #include "client.h"
 
-static int	write_in_file(char *data, int fd, int size)
+static int	write_in_file(char *data, int fd, size_t size)
 {
-  int		ret;
+  ssize_t	ret;
 
   ret = write(fd, data, size);
-  if (ret < 0 || ret != size)
+  if (ret < 0 || (size_t)ret != size)
     {
       fprintf(stderr, "%s%s%s", COLOR_RED, strerror(errno), COLOR_RESET);
       return (-1);
@@ -35,14 +35,14 @@ static int	create_file(char *path)
 {
   int		fd;
 
-  if ((fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644)) == -1)
+  if ((fd = open(path, O_WRONLY | O_CREAT, 0644)) == -1)
     fprintf(stderr, "%s%s%s", COLOR_RED, strerror(errno), COLOR_RESET);
   return (fd);
 }
 
-static int	get_create_file(t_client *client, int *size)
+static int	get_create_file(t_client *client, size_t *size)
 {
-  int		ret;
+  ssize_t	ret;
   t_data	data;
 
   ret = read(client->sockfd, &data, sizeof(data));
@@ -62,10 +62,10 @@ static int	get_create_file(t_client *client, int *size)
   return (create_file(data.data));
 }
 
-int		get_loop(int sockfd, int fd, int size)
+static int	get_loop(int sockfd, int fd, size_t size)
 {
-  int		ret;
-  int		rcv;
+  ssize_t	ret;
+  size_t	rcv;
   char		buff[DATA_SIZE];
 
   rcv = 0;
@@ -90,7 +90,7 @@ int		get_loop(int sockfd, int fd, int size)
 int		get_client(t_client *client, t_cmd *cmd)
 {
   int		fd;
-  int		size;
+  size_t	size;
   int		ret;
 
   if (send_cmd_serv(client->sockfd, cmd) == EXIT_FAILURE)

@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Fri Apr 11 20:14:33 2014 Etienne
-** Last update Fri Apr 11 22:43:05 2014 Etienne
+** Last update Sat Apr 12 15:24:31 2014 Etienne
 */
 
 #include <unistd.h>
@@ -59,8 +59,8 @@ char		*put_serveur(t_serveur *serveur,
   int		fd;
   t_data	data;
   char		buff[DATA_SIZE];
-  int		rcv;
-  int		ret;
+  size_t	rcv;
+  ssize_t	ret;
 
   rcv = 0;
   if (get_info_file(&data, serveur) == EXIT_FAILURE)

@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Thu Apr 10 23:42:47 2014 Etienne
-** Last update Fri Apr 11 23:51:07 2014 Etienne
+** Last update Sat Apr 12 15:23:49 2014 Etienne
 */
 
 #include <stdio.h>
@@ -25,11 +25,8 @@ static int		check_path_file(char *file, t_serveur *serv)
 
   base_pwd_len = strlen(serv->base_pwd);
   real_path = realpath(file, NULL);
-  printf("base_pwd = %s\n", serv->base_pwd);
-  printf("file = %s\n", real_path);
   if (strncmp(serv->base_pwd, real_path, base_pwd_len))
     {
-      printf("Not good !\n");
       return (-1);
     }
   return (0);
