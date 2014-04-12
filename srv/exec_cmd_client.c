@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Sat Apr 12 00:02:57 2014 Etienne
-** Last update Sat Apr 12 16:36:49 2014 Etienne
+** Last update Sun Apr 13 01:00:59 2014 Etienne
 */
 
 #include <string.h>
@@ -33,6 +33,7 @@ int			run_cmd_client(t_serveur *serveur, t_cmd *cmd)
   while (g_assofunc[++i].cmd != NULL)
     if (!strcmp(g_assofunc[i].cmd, cmd->arg1))
       {
+	memset(&data, 0, sizeof(data));
 	ret = g_assofunc[i].func(serveur, cmd);
 	if (ret == (void *)-1)
 	  return (EXIT_FAILURE);
