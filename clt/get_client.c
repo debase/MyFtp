@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Thu Apr 10 23:41:35 2014 Etienne
-** Last update Sat Apr 12 15:24:25 2014 Etienne
+** Last update Sun Apr 13 13:20:22 2014 Etienne
 */
 
 #include <unistd.h>
@@ -25,7 +25,7 @@ static int	write_in_file(char *data, int fd, size_t size)
   ret = write(fd, data, size);
   if (ret < 0 || (size_t)ret != size)
     {
-      fprintf(stderr, "%s%s%s", COLOR_RED, strerror(errno), COLOR_RESET);
+      fprintf(stderr, "write : %s%s%s\n", COLOR_RED, strerror(errno), COLOR_RESET);
       return (-1);
     }
   return (0);
@@ -36,7 +36,7 @@ static int	create_file(char *path)
   int		fd;
 
   if ((fd = open(path, O_WRONLY | O_CREAT, 0644)) == -1)
-    fprintf(stderr, "%s%s%s", COLOR_RED, strerror(errno), COLOR_RESET);
+    fprintf(stderr, "%screate %s : %s%s\n", COLOR_RED, path, strerror(errno), COLOR_RESET);
   return (fd);
 }
 
