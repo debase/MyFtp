@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Thu Apr 10 23:41:35 2014 Etienne
-** Last update Sun Apr 13 16:22:24 2014 Etienne
+** Last update Sun Apr 13 19:07:32 2014 Etienne
 */
 
 #include <unistd.h>
@@ -36,9 +36,12 @@ static int	create_file(char *path)
 {
   int		fd;
 
-  if ((fd = open(path, O_WRONLY | O_CREAT, 0644)) == -1)
-    fprintf(stderr, "%screate %s : %s%s\n", COLOR_RED, path,
-	    strerror(errno), COLOR_RESET);
+  if ((fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1)
+    {
+      fprintf(stderr, "%screate %s : %s%s\n", COLOR_RED, path,
+	      strerror(errno), COLOR_RESET);
+      exit(EXIT_FAILURE);
+    }
   return (fd);
 }
 
@@ -96,7 +99,6 @@ int		get_client(t_client *client, t_cmd *cmd)
   size_t	size;
   int		ret;
 
-  printf ("arg2 = %s\n", cmd->arg2);
   if (send_cmd_serv(client->sockfd, cmd) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if ((fd = get_create_file(client, &size)) > 0)

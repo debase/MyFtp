@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Fri Apr 11 20:14:33 2014 Etienne
-** Last update Sun Apr 13 16:39:24 2014 Etienne
+** Last update Sun Apr 13 19:18:12 2014 Etienne
 */
 
 #include <unistd.h>
@@ -32,12 +32,16 @@ static int	get_info_file(t_data *data, t_serveur *serveur)
   return (EXIT_SUCCESS);
 }
 
-static int	create_file(t_data *data)
+static int	create_file(t_data *data, int sockfd)
 {
   int		fd;
 
-  if ((fd = open(data->data, O_WRONLY | O_CREAT, 0644)) == -1)
-    fprintf(stderr, "%s%s%s", COLOR_RED, strerror(errno), COLOR_RESET);
+  if ((fd = open(data->data, O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1)
+    {
+      fprintf(stderr, "%s%s%s", COLOR_RED, strerror(errno), COLOR_RESET);
+      close(sockfd);
+      exit(EXIT_FAILURE);
+    }
   return (fd);
 }
 
@@ -51,7 +55,7 @@ static int	write_in_file(char *data, int fd, int size)
       fprintf(stderr, "%s%s%s", COLOR_RED, strerror(errno), COLOR_RESET);
       return (-1);
     }
-return (0);
+  return (0);
 }
 
 char		*put_serveur(t_serveur *serveur,
@@ -66,7 +70,7 @@ char		*put_serveur(t_serveur *serveur,
   rcv = 0;
   if (get_info_file(&data, serveur) == EXIT_FAILURE)
     return ((void *)-1);
-  if ((fd = create_file(&data)) > 0)
+  if ((fd = create_file(&data, serveur->sockfd)) > 0)
     while (rcv != data.size)
       {
 	ret = read(serveur->sockfd, buff, DATA_SIZE);

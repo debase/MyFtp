@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Fri Apr 11 23:26:56 2014 Etienne
-** Last update Fri Apr 11 23:34:02 2014 Etienne
+** Last update Sun Apr 13 19:15:33 2014 Etienne
 */
 
 #include <string.h>
@@ -29,7 +29,7 @@ int		send_cmd_serv(int sockfd, t_cmd *cmd)
   int		ret;
 
   ret = write(sockfd, cmd, sizeof(*cmd));
-  if (ret < 0)
+  if (ret <= 0)
     {
       perror("write");
       return (EXIT_FAILURE);
