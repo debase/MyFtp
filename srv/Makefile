@@ -5,10 +5,10 @@
 ## Login   <debas_e@epitech.net>
 ## 
 ## Started on  Mon Apr  7 21:12:01 2014 Etienne
-## Last update Sun Apr 13 14:45:40 2014 Etienne
+## Last update Sun Apr 13 18:47:12 2014 Etienne
 ##
 
-BINDIR	=	../bin/
+BINDIR	=	../
 
 NAME	=	$(addprefix $(BINDIR), serveur)
 
