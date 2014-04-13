@@ -1,64 +1,39 @@
 ##
-## Makefile for Makefile in /home/debas_e/Project/System_Unix/PSU_2013_myftp
+## Makefile for Makefile in /home/sinet_l/Documents/project/cpp_nibbler
 ## 
-## Made by Etienne
-## Login   <debas_e@epitech.net>
+## Made by luc sinet
+## Login   <sinet_l@epitech.net>
 ## 
-## Started on  Mon Apr  7 21:12:01 2014 Etienne
-## Last update Sun Apr 13 13:25:55 2014 Etienne
+## Started on  Tue Mar 18 23:11:50 2014 luc sinet
+## Last update Sun Apr 13 14:43:18 2014 Etienne
 ##
 
-SRVNAME	= serveur
+NAME	= myftp
 
-NAMECLI	= client
+PATHS	= clt/ \
+	  srv/
 
-SRV	= srv
+BINDIR	= ./
+OBJDIR	= ./obj/
 
-CLI	= clt
+dummy	:= $(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
+	   $(shell test -d $(BINDIR) || mkdir $(BINDIR))
 
-SRVSRC	=	$(SRV)/main.c			\
-		$(SRV)/socket_serveur.c		\
-		$(SRV)/handle_client.c		\
-		$(SRV)/get_serveur.c		\
-		$(SRV)/basic_func_server.c	\
-		$(SRV)/exec_cmd_client.c	\
-		$(SRV)/put_serveur.c
+$(NAME):
+	@for dir in $(PATHS); do \
+	echo -e "\e[30m [\e[34mCompiling: \e[31m$$dir\e[30m]\e[0m"; make --no-print-directory -C $$dir; \
+	done
 
-SRCCLT	=	$(CLI)/main.c			\
-		$(CLI)/socket_client.c		\
-		$(CLI)/parse_line.c		\
-		$(CLI)/exec_cmd_client.c	\
-		$(CLI)/basic_func_client.c	\
-		$(CLI)/get_client.c		\
-		$(CLI)/put_client.c
-
-INC	=	includes/
-
-SRVOBJ	=	$(SRVSRC:.c=.o)
-
-CLTOBJ	=	$(SRCCLT:.c=.o)
-
-CC	=	gcc
-
-RM	=	rm -rf
-
-CFLAGS	=	-W -Wall
-
-all:		$(SRVNAME) $(NAMECLI)
-
-$(SRVNAME):	$(SRVOBJ)
-		$(CC) -o $(SRVNAME) $(SRVOBJ)
-
-$(NAMECLI):	$(CLTOBJ)
-		$(CC) -o $(NAMECLI) $(CLTOBJ)
-
-.c.o:
-		$(CC) $(CFLAGS) -I$(INC) -c $< -o $(<:.c=.o)
+all: $(NAME)
 
 clean:
-		$(RM) $(SRVOBJ) $(CLTOBJ)
+	@for dir in $(PATHS); do \
+	echo -e "\e[30m [\e[34mCleaning: \e[31m$$dir\e[30m]\e[0m"; make --no-print-directory -C $$dir clean; \
+	done
 
-fclean:		clean
-		$(RM) $(SRVNAME) $(NAMECLI)
+fclean:
+	@for dir in $(PATHS); do \
+	echo -e "\e[30m [\e[34mRemoving: \e[31m$$dir\e[30m]\e[0m"; make --no-print-directory -C $$dir fclean; \
+	done
 
-re:		fclean all
+re:	fclean all
