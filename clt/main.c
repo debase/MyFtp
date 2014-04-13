@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Mon Apr  7 23:39:28 2014 Etienne
-** Last update Sat Apr 12 17:34:22 2014 Etienne
+** Last update Sun Apr 13 14:21:26 2014 Etienne
 */
 
 #include <stdlib.h>
@@ -22,7 +22,8 @@ int		main(int ac, char *argv[])
 
   if (ac != 3)
     {
-      printf("%sUsage%s : %s <host> <port>\n", COLOR_RED, COLOR_RESET, argv[0]);
+      printf("%sUsage%s : %s <host> <port>\n",
+	     COLOR_RED, COLOR_RESET, argv[0]);
       return (1);
     }
   memset(&cstruct, 0, sizeof(cstruct));
