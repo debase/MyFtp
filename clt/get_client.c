@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Thu Apr 10 23:41:35 2014 Etienne
-** Last update Sun Apr 13 13:20:22 2014 Etienne
+** Last update Sun Apr 13 14:20:01 2014 Etienne
 */
 
 #include <unistd.h>
@@ -103,7 +103,7 @@ int		get_client(t_client *client, t_cmd *cmd)
     }
   if (fd > 0)
     {
-      printf ("%sSuccess : get file%s\n", COLOR_GREEN, COLOR_RESET);
+      printf("%sSuccess : get file%s\n", COLOR_GREEN, COLOR_RESET);
       close(fd);
     }
   return (fd == -2 ? EXIT_FAILURE : EXIT_SUCCESS);

@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Fri Apr 11 19:14:17 2014 Etienne
-** Last update Sat Apr 12 17:14:27 2014 Etienne
+** Last update Sat Apr 12 17:29:21 2014 Etienne
 */
 
 #include <stdio.h>
@@ -44,7 +44,7 @@ static int	is_valid_file(char *path_file, t_data *data)
 
   if (path_file[0] == 0)
     {
-      printf ("%sUsage : put [file]%s\n", COLOR_RED, COLOR_RESET);
+      printf("%sUsage : put [file]%s\n", COLOR_RED, COLOR_RESET);
       return (-1);
     }
   if ((fd = open(path_file, O_RDONLY)) < 0)
@@ -62,7 +62,7 @@ static int	is_valid_file(char *path_file, t_data *data)
   return (fd);
 }
 
-int		loop_put(size_t size, int sockfd, int fd)
+static int	loop_put(size_t size, int sockfd, int fd)
 {
   size_t	total_sent;
   ssize_t	sent;
