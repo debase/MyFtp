@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Tue Apr  8 14:12:36 2014 Etienne
-** Last update Fri Apr 11 23:28:42 2014 Etienne
+** Last update Sun Apr 13 16:26:50 2014 Etienne
 */
 
 #ifndef _CLIENT_H_
@@ -47,5 +47,6 @@ int		other_func(t_client *client, t_cmd *cmd);
 int		help_func(t_client *client, t_cmd *cmd);
 int		send_cmd_serv(int sockfd, t_cmd *cmd);
 int		create_socket_client(const char *host, const char *port);
+int		get_data(int fd, void *data, size_t size);
 
 #endif /* !_CLIENT_H_ */

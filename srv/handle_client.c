@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Fri Apr 11 23:54:50 2014 Etienne
-** Last update Fri Apr 11 23:56:48 2014 Etienne
+** Last update Sun Apr 13 16:28:25 2014 Etienne
 */
 
 #include <string.h>
@@ -30,6 +30,22 @@ static int		init_serv_struct(t_serveur *serveur, int sockfd,
   return (EXIT_SUCCESS);
 }
 
+int		get_data(int fd, void *data, size_t size)
+{
+  size_t	rcv;
+  size_t	ret;
+
+  rcv = 0;
+  while (rcv != size)
+    {
+      ret = read(fd, (char *)data + rcv, size - rcv);
+      if (ret <= 0)
+	return (EXIT_FAILURE);
+      rcv += ret;
+    }
+  return (EXIT_SUCCESS);
+}
+
 void			handle_client(int sockfd, struct sockaddr_in *cli_addr)
 {
   t_cmd			cmd;
@@ -41,8 +57,8 @@ void			handle_client(int sockfd, struct sockaddr_in *cli_addr)
   while (1)
     {
       memset(&cmd, 0, sizeof(cmd));
-      ret = read(sockfd, &cmd, sizeof(cmd));
-      if (ret <= 0)
+      ret = get_data(sockfd, &cmd, sizeof(cmd));
+      if (ret == EXIT_FAILURE)
 	{
 	  printf("client exited\n");
 	  return;

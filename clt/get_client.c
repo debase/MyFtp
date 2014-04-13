@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Thu Apr 10 23:41:35 2014 Etienne
-** Last update Sun Apr 13 14:21:04 2014 Etienne
+** Last update Sun Apr 13 16:22:24 2014 Etienne
 */
 
 #include <unistd.h>
@@ -44,11 +44,12 @@ static int	create_file(char *path)
 
 static int	get_create_file(t_client *client, size_t *size)
 {
-  ssize_t	ret;
+  int		ret;
   t_data	data;
 
-  ret = read(client->sockfd, &data, sizeof(data));
-  if (ret < 0 || ret != sizeof(data))
+  memset(&data, 0, sizeof(data));
+  ret = get_data(client->sockfd, &data, sizeof(data));
+  if (ret == EXIT_FAILURE)
     {
       fprintf(stderr, "read error : %s%s%s\n",
 	      COLOR_RED, strerror(errno), COLOR_RESET);
@@ -95,6 +96,7 @@ int		get_client(t_client *client, t_cmd *cmd)
   size_t	size;
   int		ret;
 
+  printf ("arg2 = %s\n", cmd->arg2);
   if (send_cmd_serv(client->sockfd, cmd) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if ((fd = get_create_file(client, &size)) > 0)

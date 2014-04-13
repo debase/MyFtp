@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Fri Apr 11 23:31:30 2014 Etienne
-** Last update Fri Apr 11 23:33:33 2014 Etienne
+** Last update Sun Apr 13 16:18:01 2014 Etienne
 */
 
 #include <stdlib.h>
@@ -30,6 +30,22 @@ int		help_func(__attribute__((unused)) t_client *client,
   return (EXIT_SUCCESS);
 }
 
+int		get_data(int fd, void *data, size_t size)
+{
+  size_t	rcv;
+  size_t	ret;
+
+  rcv = 0;
+  while (rcv != size)
+    {
+      ret = read(fd, (char *)data + rcv, size - rcv);
+      if (ret <= 0)
+	return (EXIT_FAILURE);
+      rcv += ret;
+    }
+  return (EXIT_SUCCESS);
+}
+
 int		other_func(t_client *client, t_cmd *cmd)
 {
   int		ret;
@@ -38,15 +54,14 @@ int		other_func(t_client *client, t_cmd *cmd)
   memset(&data, 0, sizeof(data));
   if (send_cmd_serv(client->sockfd, cmd) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  ret = read(client->sockfd, &data, sizeof(data));
-  while (ret > 0 && ret == sizeof(data))
+  while ((ret = get_data(client->sockfd, &data, sizeof(data))) != EXIT_FAILURE)
     {
       printf("%s\n", data.data);
       if (data.flags == MSG_END)
 	break;
-      ret = read(client->sockfd, &data, sizeof(data));
+      memset(&data, 0, sizeof(data));
     }
-  if (ret < 0 || ret != sizeof(data))
+  if (ret == EXIT_FAILURE)
     {
       perror("read error");
       return (EXIT_FAILURE);

@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Tue Apr  8 13:33:10 2014 Etienne
-** Last update Sat Apr 12 17:25:50 2014 Etienne
+** Last update Sun Apr 13 16:26:43 2014 Etienne
 */
 
 #ifndef _SERVEUR_H_
@@ -50,5 +50,6 @@ char			*pwd_serveur(t_serveur *, t_cmd *cmd);
 char			*get_serveur(t_serveur *, t_cmd *cmd);
 char			*put_serveur(t_serveur *, t_cmd *cmd);
 int			create_socket_server(const char *port);
+int			get_data(int fd, void *data, size_t size);
 
 #endif /* !_SERVEUR_H_ */

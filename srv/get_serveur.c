@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Thu Apr 10 23:42:47 2014 Etienne
-** Last update Sat Apr 12 17:16:11 2014 Etienne
+** Last update Sun Apr 13 16:17:27 2014 Etienne
 */
 
 #include <stdio.h>
@@ -40,6 +40,7 @@ static int		check_valid_file(t_serveur *serv, t_cmd *cmd, t_data *data)
   memset(data, 0, sizeof(*data));
   if (cmd->arg2[0] == 0)
     {
+      printf("cmd->arg2[0] = %d\n", (int)cmd->arg2[0]);
       snprintf(data->data, DATA_SIZE, "Usage : get [file]");
       return (-1);
     }
@@ -66,9 +67,9 @@ char			*get_serveur(t_serveur *serv, t_cmd *cmd)
   size_t		total_sent;
   ssize_t		sent;
 
+  total_sent = 0;
   fd = check_valid_file(serv, cmd, &data);
   write(serv->sockfd, &data, sizeof(data));
-  total_sent = 0;
   if (fd > 0)
     {
       while (total_sent < data.size)

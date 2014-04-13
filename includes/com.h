@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Wed Apr  9 13:36:18 2014 Etienne
-** Last update Sat Apr 12 17:26:46 2014 Etienne
+** Last update Sun Apr 13 16:14:23 2014 Etienne
 */
 
 #ifndef _COM_H_
@@ -34,5 +34,7 @@ typedef struct	s_data
   int		total_size;
   char		flags;
 }		t_data;
+
+int		get_data(int fd, void *data, size_t size);
 
 #endif /* !_COM_H_ */

@@ -5,7 +5,7 @@
 ** Login   <debas_e@epitech.net>
 **
 ** Started on  Fri Apr 11 20:14:33 2014 Etienne
-** Last update Sat Apr 12 15:24:31 2014 Etienne
+** Last update Sun Apr 13 16:39:24 2014 Etienne
 */
 
 #include <unistd.h>
@@ -22,7 +22,8 @@ static int	get_info_file(t_data *data, t_serveur *serveur)
 {
   int		ret;
 
-  ret = read(serveur->sockfd, data, sizeof(*data));
+  memset(data, 0, sizeof(*data));
+  ret = get_data(serveur->sockfd, data, sizeof(*data));
   if (ret < 0)
     {
       perror("read");
